@@ -389,9 +389,10 @@ class news_front
 		if($this->page  > 1) {
 			$options['query'] = ['page' => $this->page];
 		}
- 
-		e107::canonical('news', $this->action, $this->newsUrlparms, $options);
 
+		if(!defined("e_FRONTPAGE"))  {
+			e107::canonical('news', $this->action, $this->newsUrlparms, $options);
+		}
 	}
 
 	private function setPagination()
