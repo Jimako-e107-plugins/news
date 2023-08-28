@@ -37,7 +37,7 @@ $NEWS_MENU_TEMPLATE['months']['item']        = '
 // latest menu
 $NEWS_MENU_TEMPLATE['latest']['start']       = '<ul class="list-group news-menu-latest">';
 $NEWS_MENU_TEMPLATE['latest']['end']         = '</ul>'; // Example: $NEWS_MENU_TEMPLATE['latest']['end']  '<br />{currentTotal} from {total}';
-$NEWS_MENU_TEMPLATE['latest']['item']        = '<li class="list-group-item d-flex justify-content-between align-items-center"><a class="e-menu-link newsmonths" href="{NEWSURL}">{NEWSTITLE}</a><span class="badge bg-primary rounded-pill">{NEWSCOMMENTCOUNT}</span></li>';
+$NEWS_MENU_TEMPLATE['latest']['item']        = '<li class="list-group-item d-flex justify-content-between align-items-center"><a class="e-menu-link newsmonths" href="{NEWS_URL}">{NEWS_TITLE}</a><span class="badge bg-primary rounded-pill">{NEWS_COMMENTCOUNT}</span></li>';
 
 
 
@@ -48,12 +48,12 @@ $NEWS_MENU_TEMPLATE['latest']['item']        = '<li class="list-group-item d-fle
 $NEWS_MENU_TEMPLATE['other']['caption'] 	= TD_MENU_L1;
 $NEWS_MENU_TEMPLATE['other']['start']		= "<div id='otherNews' data-interval='false' data-bs-interval='false' class='carousel slide othernews-block'>
 												<div class='carousel-inner'>
-												{SETIMAGE: w=400&h=200&crop=1}"; // set the {NEWSIMAGE} dimensions. 								
+												{SETIMAGE: w=400&h=200&crop=1}"; // set the {NEWS_IMAGE} dimensions. 								
 $NEWS_MENU_TEMPLATE['other']['item']		= '<div class="carousel-item item {ACTIVE}">
-												{NEWSTHUMBNAIL=placeholder}
-              									<h3>{NEWSTITLE}</h3>
-              									<p>{NEWSSUMMARY}</p>
-              									<p class="text-right text-end"><a class="btn btn-sm btn-primary btn-othernews" href="{NEWSURL}">{LAN=READ_MORE} &raquo;</a></p>
+												{NEWS_THUMBNAIL=placeholder}
+              									<h3>{NEWS_TITLE}</h3>
+              									<p>{NEWS_SUMMARY}</p>
+              									<p class="text-right text-end"><a class="btn btn-sm btn-primary btn-othernews" href="{NEWS_URL}">{LAN=READ_MORE} &raquo;</a></p>
             									</div>';									
 $NEWS_MENU_TEMPLATE['other']['end']			= "</div></div>";
 
@@ -69,9 +69,9 @@ $NEWS_MENU_TEMPLATE['other']['end']			= "</div></div>";
 $NEWS_MENU_TEMPLATE['other2']['caption'] 	= TD_MENU_L2;
 $NEWS_MENU_TEMPLATE['other2']['start'] 	= "<ul class='media-list unstyled list-unstyled othernews2-block'>{SETIMAGE: w=100&h=100&crop=1}"; // set the {NEWSIMAGE} dimensions.
 $NEWS_MENU_TEMPLATE['other2']['item'] 	= "<li class='media d-flex'>
-										<span class='media-object pull-left float-left mr-3 me-3'>{NEWSTHUMBNAIL=placeholder}</span> 
+										<span class='media-object pull-left float-left mr-3 me-3'>{NEWS_THUMBNAIL=placeholder}</span> 
 										<div class='media-body'><h4>{NEWSTITLELINK}</h4>
-										<p class='text-right text-end'><a class='btn btn-sm btn-primary btn-othernews2' href='{NEWSURL}'>{LAN=READ_MORE} &raquo;</a></p>
+										<p class='text-right text-end'><a class='btn btn-sm btn-primary btn-othernews2' href='{NEWS_URL}'>{LAN=READ_MORE} &raquo;</a></p>
 										</div>
 										</li>\n";
 										
@@ -84,7 +84,7 @@ $NEWS_MENU_TEMPLATE['other2']['end'] 	= "</ul>";
 // Moved to news_grid_template.php
 
 
-// $NEWS_MENU_WRAPPER['grid']['NEWSTITLE'] = "<span style='color:red'>{---}</span>"; // example
+// $NEWS_MENU_WRAPPER['grid']['NEWS_TITLE'] = "<span style='color:red'>{---}</span>"; // example
 
 
 /* Carousel Menu */
