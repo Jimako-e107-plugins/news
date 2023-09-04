@@ -312,7 +312,7 @@ class news_shortcodes extends e_shortcode
 		}
 	}
 
-
+	/* {NEWS_CATEGORY_NAME} */
 	function sc_news_category_name($parm=null)
 	{
 		if(empty($parm['link']) && isset($this->news_item['category_name']))
@@ -341,6 +341,7 @@ class news_shortcodes extends e_shortcode
 		}
 	}
 
+	/* {NEWS_CATEGORY_URL} */
 	function sc_news_category_url($parm=null)
 	{
 		if(empty($this->news_item['category_id']) || empty($this->news_item['category_sef']) )
@@ -435,7 +436,7 @@ class news_shortcodes extends e_shortcode
 		{
 			return $this->news_carousel($parm);
 		}
-
+ 
 		$tp = e107::getParser();
 		$srcPath = '';
 
@@ -649,6 +650,7 @@ class news_shortcodes extends e_shortcode
 
 	}
 
+	/* {NEWS_DATE} */
 	function sc_news_date($parm=null)
 	{
 		$date = ($this->news_item['news_start'] > 0) ? $this->news_item['news_start'] : $this->news_item['news_datestamp'];
