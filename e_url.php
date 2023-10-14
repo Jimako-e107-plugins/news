@@ -71,8 +71,8 @@ class news_url // plugin-folder + '_url'
 
 		$config['item'] = array(
 			'alias'         => $alias,
-			'regex'			=> '^{alias}/view/(\d*)-([\w-]*)\/?\??(.*)',
-			'sef'			=> '{alias}/view/{news_id}-{news_sef}',			// {faq_info_sef} is substituted with database value when parsed by e107::url();
+			'regex'			=> '^{alias}/view-(\d*)-([\w-]*)\/?\??(.*)',
+			'sef'			=> '{alias}/view-{news_id}-{news_sef}',			// {faq_info_sef} is substituted with database value when parsed by e107::url();
 			'redirect'		=> '{e_PLUGIN}news/news.php?action=item&newsid=$1&sef=$2'
 		);
 
@@ -80,8 +80,8 @@ class news_url // plugin-folder + '_url'
 		/* news/list/short */
 		$config['category'] = array(
 			'alias'         => $alias,
-			'regex'			=> '^{alias}/category/(\d*)-([\w-]*)\/?\??(.*)',
-			'sef'			=> '{alias}/category/{category_id}-{category_sef}/',			// {faq_info_sef} is substituted with database value when parsed by e107::url();
+			'regex'			=> '^{alias}/category-(\d*)-([\w-]*)\/?\??(.*)',
+			'sef'			=> '{alias}/category-{category_id}-{category_sef}/',			// {faq_info_sef} is substituted with database value when parsed by e107::url();
 			'redirect'		=> '{e_PLUGIN}news/news.php?action=category&category=$1&sef=$2'
 		);
 
