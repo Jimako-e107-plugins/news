@@ -25,3 +25,9 @@ add "end" template with shortcode {NEWS_PAGINATION}, no legacy pagination is sup
  
 - change category of news plugin from menu to content - to be able to unistall and install it
 
+
+Version 2.1, notes:
+- removed render_newscats() functionality
+- separated rendering of category template from list
+- globals $NEWSLISTSTYLE doesn't supported anymore
+

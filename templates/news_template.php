@@ -144,7 +144,7 @@ $NEWS_TEMPLATE['default']['item'] = '
 		</div>
 ';
 
-$NEWS_TEMPLATE['default']['end']	= '';
+$NEWS_TEMPLATE['default']['end']	= '{NEWS_PAGINATION}';
 
 $NEWS_TEMPLATE['category']          = $NEWS_TEMPLATE['default'];
 $NEWS_TEMPLATE['category']['start']	= '<!-- Category News Template -->';

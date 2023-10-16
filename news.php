@@ -115,13 +115,7 @@ class news_front
 				$breadcrumb[] = array('text'=> $categoryName, 'url'=>e107::url('news', 'category', $this->currentRow));
 				$breadcrumb[] = array('text'=> $itemName, 'url'=> null);
 				break;
-
-
-			case 'news/list/category':
-			case 'news/list/short':
-				$breadcrumb[] = array('text'=> $categoryName, 'url'=>null);
-				break;
-
+ 
 			case 'news/list/tag':
 				$breadcrumb[] = array('text'=> defset('LAN_NEWS_309', "Tag"), 'url'=>null);
 				$breadcrumb[] = array('text'=> $this->tagAuthor, 'url'=>null);
@@ -285,12 +279,7 @@ class news_front
 		{
 			$sub_action = null;
 		}
-
-		if (!empty($_GET['category']))
-		{
-			$action = 'category';
-			$sub_action = $_GET['category'];
-		}
+ 
 
 		if(!empty($_GET['tag']))
 		{
@@ -337,13 +326,7 @@ class news_front
 					$newsRoute = 'list/all';
 				break;
 
-				case 'category':
-					//we need {category_id}-{category_sef}
-					$this->newsUrlparms['category_id'] = $this->subAction;
-					$this->newsUrlparms['category_sef'] = $this->subSef;
  
-					$newsRoute = 'list/category';
-				break;
 
 				case 'day':
 				case 'month':
@@ -408,7 +391,7 @@ class news_front
 		{
 			switch($this->action)
 			{
-				case 'category':
+		 
 				case 'all':
 				case 'tag':
 				case 'author':
@@ -575,12 +558,7 @@ class news_front
  
 		switch($type)
 		{
-			case "category":
-				e107::title($this->subAction);
-				e107::meta('robots', 'noindex, follow');
-				e107::route('news/list/category');
-	 
-
+ 
 			case "tag":
 				e107::title($this->subAction);
 				e107::meta('robots', 'noindex, follow');
@@ -639,10 +617,7 @@ class news_front
 				
 				break;
 
-			case "news":
-		 
-				e107::route('news/view/item');      
-			break;
+	 
 
 			case "all":
 			default:
@@ -760,23 +735,7 @@ class news_front
 
 			return;
 		}
-
-
-
-		if($news['category_name'] && $type == 'category')
-		{
-			e107::title($tp->toHTML($news['category_name'],false,'TITLE_PLAIN'));
-		}
-
-		if($news['category_meta_keywords'] && !defined('META_KEYWORDS'))
-		{
-			define('META_KEYWORDS', $news['category_meta_keywords']);
-		}
-
-		if($news['category_meta_description'] && !defined('META_DESCRIPTION'))
-		{
-			define('META_DESCRIPTION', $news['category_meta_description']);
-		}
+ 
 
 
 
@@ -1148,184 +1107,7 @@ class news_front
 	}
 
 
-	private function renderViewTemplate()
-	{
  
-		$this->addDebug("Method",'renderViewTemplate()');
-
-		if($newsCachedPage = $this->checkCache($this->cacheString))
-		{
-			$this->addDebug("Cache",'active');
-			$rows = $this->getNewsCache($this->cacheString,'rows');
-			$this->currentRow = $rows;
-			$caption = $this->getNewsCache($this->cacheString,'caption');
-			e107::getEvent()->trigger('user_news_item_viewed', $rows);
-			$this->addDebug("Event-triggered:user_news_item_viewed", $rows);
-			$this->setNewsFrontMeta($rows);
-			$text = $this->renderCache($caption, $newsCachedPage);		// This exits if cache used
-			$this->comments = $rows;
-			return $text;
-		}
-		else
-		{
-			$this->addDebug("Cache",'inactive');
-		}
-
-		$sql = e107::getDb();
-		// <-- Cache
-
-	/*	if(isset($this->pref['trackbackEnabled']) && $this->pref['trackbackEnabled'])
-		{
-			$query = "
-		    SELECT COUNT(tb.trackback_pid) AS tb_count, n.*, u.user_id, u.user_name, u.user_customtitle, u.user_image, nc.category_id, nc.category_name, nc.category_sef,
-			nc.category_icon, nc.category_meta_keywords, nc.category_meta_description
-		    FROM #news AS n
-			LEFT JOIN #user AS u ON n.news_author = u.user_id
-			LEFT JOIN #news_category AS nc ON n.news_category = nc.category_id
-			LEFT JOIN #trackback AS tb ON tb.trackback_pid  = n.news_id
-			WHERE n.news_id=".intval($this->subAction)." AND n.news_class REGEXP '".e_CLASS_REGEXP."'
-			AND NOT (n.news_class REGEXP ".$this->nobody_regexp.")
-			AND n.news_start < ".time()." AND (n.news_end=0 || n.news_end>".time().")
-			GROUP by n.news_id";
-		}
-		else
-		{*/
-			$query = "
-		    SELECT n.*, u.user_id, u.user_name, u.user_customtitle, u.user_image, u.user_login, nc.category_id, nc.category_name, nc.category_sef, nc.category_icon, nc.category_meta_keywords,
-			nc.category_meta_description
-		    FROM #news AS n
-			LEFT JOIN #user AS u ON n.news_author = u.user_id
-			LEFT JOIN #news_category AS nc ON n.news_category = nc.category_id
-			WHERE n.news_class REGEXP '".e_CLASS_REGEXP."'
-			AND NOT (n.news_class REGEXP ".$this->nobody_regexp.")
-			AND n.news_start < ".time()."
-			AND (n.news_end=0 || n.news_end>".time().")
-			AND n.news_id=".intval($this->subAction);
-	//	}
- 
-
-		if ($sql->gen($query))
-		{
-			$news = $sql->fetch();
-			$id = $news['news_category'];		// Use category of this news item to generate next/prev links
-
-			e107::getEvent()->trigger('user_news_item_viewed', $news);
-			$this->addDebug("Event-triggered:user_news_item_viewed", $news);
-		 
-			//***NEW [SecretR] - comments handled inside now
-			e107::setRegistry('news/page_allow_comments', !$news['news_allow_comments']);
-			if(!$news['news_allow_comments'] && isset($_POST['commentsubmit']))
-			{
-				$pid = intval(varset($_POST['pid'], 0));				// ID of the specific comment being edited (nested comments - replies)
-
-				$clean_authorname = $_POST['author_name'];
-				$clean_comment = $_POST['comment'];
-				$clean_subject = $_POST['subject'];
-
-				e107::getSingleton('comment')->enter_comment($clean_authorname, $clean_comment, 'news', $this->subAction, $pid, $clean_subject);
-			}
-
-			//More SEO
-			$this->setNewsFrontMeta($news);
-
-			$currentNewsAction = $this->action;
-
-			$action = $currentNewsAction;
-
-			$param = array();
-			$param['current_action'] = $action;
-			$param['template_key'] = 'news/view';
-			$param['return'] = true;
-
-			$caption = null;
-			$render = false;
- 
-			$tmp = e107::getTemplate('news', 'news', 'item');
-
-			if(empty($tmp))
-			{
-				$this->addDebug('template', "news_view_template.php");
-				$newsViewTemplate = !empty($news['news_template']) ? $news['news_template'] : 'default';
-				$tmp = e107::getTemplate('news', 'news_view', $newsViewTemplate);
-				$param['template_key'] = 'news_view/'.$newsViewTemplate;
-			}
-			else
-			{
-				$this->addDebug('template', "news_template.php");
-			}
-
-			$template = $tmp['item'];
-
-
-			if(defset('THEME_VERSION') === 2.3 || (isset($tmp['caption']) && $tmp['caption'] !== null)) // to initiate tablerender() usage.
-			{
-				$this->addDebug('Internal Route', $this->route);
-
-				$this->templateKey = $newsViewTemplate; // used for tablerender id.
-
-				$nsc = e107::getScBatch('news', true)->setScVar('news_item', $news); // Allow any news shortcode to be used in the 'caption'.
-				$caption = e107::getParser()->parseTemplate($tmp['caption'], true, $nsc);
-
-				$render = true;
-			}
-
-			unset($tmp);
-
-		
-
-
-			$this->currentRow = $news;
-
-			$this->caption = $caption;
-
-
-			$cache_data =	$this->ix->render_newsitem($news, 'extend', '', $template, $param);
-
-			$this->setNewsCache($this->cacheString, $cache_data, $news);
-
-			if($render === true)
-			{
-
-
-				$unique = $this->getRenderId();
-
-
-				$ns = e107::getRender();
-				$ns->setUniqueId($unique);
-				$ns->setContent('title', $news['news_title']);
-				$ns->setContent('text', $news['news_summary']);
-				$ns->setUniqueId(null); // prevent other tablerenders from using this content.
-
-				// TODO add 'image' and 'icon'?
-
-				$text = $cache_data;
-			}
-			else
-			{
-				$text = $cache_data;
-			}
-		
-			$this->comments = $news;
-	 
-			return $text;
-		}
-		else
-		{
-
-			header("HTTP/1.0 404 Not Found",true,404);
-			require_once(e_LANGUAGEDIR.e_LANGUAGE."/lan_error.php");
-			$text = "<div class='news-view-error'>".e107::getMessage()->setTitle(LAN_ERROR_7, E_MESSAGE_INFO)->addInfo(LAN_NEWS_308)->render(); // Perhaps you're looking for one of the news items below?
-			$text .= "</div>";
-			$this->action = 'all';
-			$text .= $this->renderListTemplate();
-
-
-			return $text;
-
-		}
-
-
-	}
 
 
 	private function renderComments($news)
@@ -1590,14 +1372,11 @@ class news_front
 		$news_total=$sql->total_results;
 
 
-		$p_title = ($this->action == "item") ? $newsAr[1]['news_title'] : $tp->toHTML($newsAr[1]['category_name'],FALSE,'TITLE');
+		$p_title =  $tp->toHTML($newsAr[1]['category_name'],FALSE,'TITLE');
 
 		switch($this->action)
 		{
-			case 'item':
-				$this->setNewsFrontMeta($newsAr[1]);
-				break;
-
+			 
 
 			case 'list':
 			default:

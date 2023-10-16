@@ -21,6 +21,8 @@ $NEWS_VIEW_INFO = array(
 // Default
 $NEWS_VIEW_WRAPPER['default']['item']['NEWSIMAGE: item=1'] = '<span class="news-images-main pull-left float-left col-xs-12 col-sm-6 col-md-6">{---}</span>';
 $NEWS_VIEW_WRAPPER['default']['item']['NEWSRELATED'] = '<hr />{---}<hr />';
+$NEWS_VIEW_WRAPPER['default']['item']['NEWS_VIEW_COMMENTS'] = '<hr /><div class="shadow-sm">{---}</div><hr />';
+
 
 $NEWS_VIEW_TEMPLATE['default']['caption'] = '{NEWS_TITLE}'; // null; // add a value to user tablerender()
 $NEWS_VIEW_TEMPLATE['default']['item'] = '
@@ -76,7 +78,8 @@ $NEWS_VIEW_TEMPLATE['default']['item'] = '
 		</div>
 
 	</div>
-
+	{NEWS_VIEW_COMMENTS}
+	
 	{NEWS_RELATED}
 
 	<ul class="pagination justify-content-between my-5 news-view-pagination">
@@ -106,25 +109,17 @@ $NEWS_VIEW_TEMPLATE['default']['item'] = '
 
 
 // Videos
- $NEWS_VIEW_TEMPLATE['videos']['item'] = '<div class="view-item"><div class="alert alert-warning">Empty news_view_template.php (videos) - have ideas? let us know.</div></div>';
+$NEWS_VIEW_TEMPLATE['videos']['item'] = '<div class="view-item"><div class="alert alert-warning">Empty news_view_template.php (videos) - have ideas? let us know.</div></div>';
 
-
-// Navigation/Pagination
-$NEWS_VIEW_TEMPLATE['nav']['previous'] = '<a rel="prev" href="{NEWS_URL}">{GLYPH=fa-chevron-left}<span class="mx-1">{NEWS_TITLE}</span></a>';
-$NEWS_VIEW_TEMPLATE['nav']['current'] = '<a class="text-center" href="{NEWS_NAV_URL}">{LAN=BACK}</a>';
-$NEWS_VIEW_TEMPLATE['nav']['next'] = '<a rel="next" class="text-right" href="{NEWS_URL}"><span class="mx-1">{NEWS_TITLE}</span>{GLYPH=fa-chevron-right}</a> ';
-
-
-
-### Related 'start' - Options: Core 'single' shortcodes including {SETIMAGE}
-### Related 'item' - Options: {RELATED_URL} {RELATED_IMAGE} {RELATED_TITLE} {RELATED_SUMMARY}
-### Related 'end' - Options:  Options: Core 'single' shortcodes including {SETIMAGE}
 /*
-$NEWS_TEMPLATE['related']['start'] = "<hr><h4>".defset('LAN_RELATED', 'Related')."</h4><ul class='e-related'>";
-$NEWS_TEMPLATE['related']['item'] = "<li><a href='{RELATED_URL}'>{RELATED_TITLE}</a></li>";
-$NEWS_TEMPLATE['related']['end'] = "</ul>";*/
 
-$NEWS_VIEW_TEMPLATE['related']['caption']    = '{LAN=RELATED}';
-$NEWS_VIEW_TEMPLATE['related']['start']      = '{SETIMAGE: w=350&h=350&crop=1}<div class="row">';
-$NEWS_VIEW_TEMPLATE['related']['item']       = '<div class="col-md-4"><a href="{RELATED_URL}">{RELATED_IMAGE}</a><h3><a href="{RELATED_URL}">{RELATED_TITLE}</a></h3></div>';
-$NEWS_VIEW_TEMPLATE['related']['end']        = '</div>';
+$NEWS_VIEW_TEMPLATE['layout']['default'] = "
+{NEWS_VIEW_CAPTION}
+{NEWS_VIEW_ITEM}
+{NEWS_VIEW_NAV}
+{NEWS_VIEW_COMMENTS}
+{NEWS_VIEW_RELATED}
+";
+*/
+
+

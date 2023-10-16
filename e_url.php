@@ -62,13 +62,13 @@ class news_url // plugin-folder + '_url'
 		/* route:  news/list/author */
 
 		$config['author'] = array(
-			'alias'         => $alias,
-			'regex'			=> '^{alias}/author/(\d*)-(.*)\/(?:\?)(.*)$',
-			'sef'			=> '{alias}/author/{news_author}-{user_name}/',			 
-			'redirect'		=> '{e_PLUGIN}news/news.php?action=author&id=$1&sef=$2'
+			'alias'         => "{$alias}/author",
+			'regex'			=> '^{alias}-(\d*)-(.*)\/(?:\?)(.*)$',
+			'sef'			=> '{alias}-{news_author}-{user_name}/',			 
+			'redirect'		=> '{e_PLUGIN}news/news.php?file==author&id=$1&sef=$2'
 		);
 
-		/* allows to change word view too directly in admin configuration */
+
 		$config['item'] = array(
 			'alias'         => "{$alias}/view",
 			'regex'			=> '^{alias}-(\d*)-([\w-]*)\/?\??(.*)',
@@ -79,50 +79,47 @@ class news_url // plugin-folder + '_url'
 
 		/* news/list/short */
 		$config['category'] = array(
-			'alias'         => $alias,
-			'regex'			=> '^{alias}/category-(\d*)-([\w-]*)\/?\??(.*)',
-			'sef'			=> '{alias}/category-{category_id}-{category_sef}/',			// {faq_info_sef} is substituted with database value when parsed by e107::url();
-			'redirect'		=> '{e_PLUGIN}news/news.php?action=category&category=$1&sef=$2'
+			'alias'         => "{$alias}/category",
+			'regex'			=> '^{alias}-(\d*)-([\w-]*)\/?\??(.*)',
+			'sef'			=> '{alias}-{category_id}-{category_sef}/',			 
+			'redirect'		=> '{e_PLUGIN}news/news_category.php?id=$1&sef=$2'
 		);
 
-/*
+  
 		$config['tag'] = array(
-			'alias'         => $alias,
-			'regex'         => 'blog\/([^\/]*)\/([\d]*)(?:\/|-)([\w-]*)/?\??(.*)',
-			'sef'			=> 'blog/tag/1/{tag}/',			 
-			'redirect'		=> '{e_PLUGIN}news/news.php?tag=$3&$4'
+			'alias'         => "news/tag",
+			'regex'         => '^{alias}-(.*)(?:\/)(.*)(?:\/?)(.*)',
+			'sef'			=> '{alias}-{tag}/',			 
+			'redirect'		=> '{e_PLUGIN}news/news.php?file==tag&tag=$1&$2'
 		);
-*/
 
-		$config['tag'] = array(
-			'alias'         => $alias,
-			'regex'         => '^{alias}/tag/(.*)(?:\/)(.*)(?:\/?)(.*)',
-			'sef'			=> '{alias}/tag/{tag}/',			 
-			'redirect'		=> '{e_PLUGIN}news/news.php?action=tag&tag=$1&$2'
-		);
- 
+
+		/* no pagination */
 		$config['all'] = array(
-			'alias'         => $alias,
-			'regex'			=> '^{alias}/\?(.*)',
-			'sef'			=> '{alias}/',			 
-			'redirect'		=> '{e_PLUGIN}news/news.php?action=all&$1'
+			'alias'         => "news/all",
+			'regex'			=> '^{alias}/',
+			'sef'			=> '{alias}/',
+			'redirect'		=> '{e_PLUGIN}news/news.php?file=all'
 		);
-		
 
+
+		/* pagination */
+		$config['list'] = array(
+			'alias'         => "news",
+			'regex'			=> '^{alias}\/?\??page=?(.*)',
+			'sef'			=> '{alias}/page={page}',
+			'redirect'		=> '{e_PLUGIN}news/news.php?file=list&page=$1'
+		);
+
+		/* frontpage */
 		$config['index'] = array(
-			'alias'         => $alias,
-		 	'regex'			=> '^{alias}/$', 						// matched against url, and if true, redirected to 'redirect' below.
-			'sef'			=>  '{alias}/', 	// used by e107::url(); to create a url from the db table.
-			'redirect'		=> '{e_PLUGIN}news/news.php?action=index', 		// file-path of what to load when the regex returns true.
-
+			'alias'         => "news",
+			'regex'			=> '^{alias}/$', 	
+			'sef'			=> '{alias}/',
+			'redirect'		=> '{e_PLUGIN}news/news.php?file=index'
 		);
-
-
-
 
 		return $config;
 	}
-
-
-
+ 
 }

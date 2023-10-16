@@ -16,6 +16,7 @@ if (!defined('e107_INIT')) { exit; }
 
  
 e107::coreLan('news');
+e107::lan('news');
 
 class news_shortcodes extends e_shortcode
 {
@@ -87,17 +88,22 @@ class news_shortcodes extends e_shortcode
  
  
 		$news_body = '';
+ 
+		$news_body = $tp->toHTML($this->news_item['news_body'], true, 'BODY, fromadmin', $this->news_item['news_author']);
 
-		if($parm != 'extended')
-		{
-			$news_body = $tp->toHTML($this->news_item['news_body'], true, 'BODY, fromadmin', $this->news_item['news_author']);
-		}
-		
-		if($this->news_item['news_extended'] && (isset($_POST['preview']) || $action === 'item') && ($parm !== 'noextend' && $parm !== 'body'))
-		{
-			$news_body .= $tp->toHTML($this->news_item['news_extended'], true, 'BODY, fromadmin', $this->news_item['news_author']);
-		}
 
+		e107::getBB()->clearClass();
+
+		return $news_body;
+	}
+
+	function sc_news_extended($parm = null)
+	{
+		$tp = e107::getParser();
+		e107::getBB()->setClass("news"); // For automatic bbcode image resizing. 
+ 
+	    $news_body  = $tp->toHTML($this->news_item['news_extended'], true, 'BODY, fromadmin', $this->news_item['news_author']);
+	 
 		e107::getBB()->clearClass();
 
 		return $news_body;

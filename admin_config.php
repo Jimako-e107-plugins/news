@@ -493,8 +493,8 @@ class news_admin_ui extends e_admin_ui
 	protected $prefs = array(
 
 		'news_cache_timeout'  => array('title' => LAN_NEWS_110,  'type' => 'number', 'help'=> LAN_NEWS_111  ),
-
-
+		'news_list_limit'     => array('title' => LAN_NEWS_93,  'type' => 'number', 
+		'help' => LAN_NEWS_94, 'writeParms' => 'default=15'  ),
 	);
  
 		
@@ -636,6 +636,13 @@ class news_admin_ui extends e_admin_ui
 
 	}
 
+	public function beforePrefsSave($new_data, $old_data)
+	{
+ 
+		$this->clearCache();
+		 
+	}
+
 
 	public function afterCreate($new_data, $old_data, $id)
 	{
@@ -734,7 +741,7 @@ class news_admin_ui extends e_admin_ui
 		$ecache->clear("othernews"); //TODO change it to 'news_other' everywhere
 		$ecache->clear("othernews2"); //TODO change it to 'news_other2' everywhere
 
-
+ 
 		//$ecache->clear("nq_news_"); - supported by cache::clear() now
 		//$ecache->clear("nomd5_news_"); supported by cache::clear() now
 		return $this;
@@ -996,7 +1003,7 @@ class news_admin_ui extends e_admin_ui
 		$temp['news_pagination']        = filter_var($_POST['news_pagination']);
 
 		$temp['news_default_template']	= preg_replace('#[^\w\pL\-]#u', '', $_POST['news_default_template']);
-		$temp['news_list_limit']		= intval($_POST['news_list_limit']);
+ 
 		$temp['news_list_templates']     = e107::getParser()->toDB($_POST['news_list_templates']);
 		$temp['news_cache_timeout']     = intval($_POST['news_cache_timeout']);
 
@@ -1078,12 +1085,7 @@ class news_admin_ui extends e_admin_ui
 								</td>
 							</tr>
 
-							<tr>
-								<td>".LAN_NEWS_91.$frm->help(LAN_NEWS_92)."</td>
-								<td>
-									".$frm->select('news_list_limit', $this->_optrange(50, false), $pref['news_list_limit'])."
-								</td>
-							</tr>
+				 
 
 							<tr>
 								<td>".LAN_NEWS_93.$frm->help(LAN_NEWS_94)."</td>
