@@ -693,7 +693,9 @@ class news_shortcodes extends e_shortcode
 		}
 
 		// When news_allow_comments = 1 then it is disabled. Backward, but that's how it is in v1.x
-		$text = ($this->news_item['news_allow_comments'] ? $this->param['commentoffstring'] : "<a title='".$this->sc_news_comment_count()." ".LAN_COMMENTS."' class='e-tip".$class."' href='".e107::getUrl()->create('news/view/item', $this->news_item)."'>".$param['commentlink'].'</a>');
+		$text = ($this->news_item['news_allow_comments'] ? $this->param['commentoffstring'] : 
+		"<a title='".$this->sc_news_comment_count()." ".LAN_COMMENTS."' class='e-tip".$class."' 
+		href='".e107::url("news", "item",  $this->news_item)."'>".$param['commentlink'].'</a>');
 		return $text;
 	}
 
@@ -1235,7 +1237,7 @@ class news_shortcodes extends e_shortcode
 			$array['types'] = 'news,page';
 		}
 
-		$template = e107::getTemplate('news', 'news_view', 'related');
+		$template = e107::getTemplate('news', 'news_other', 'related');
 
 		return e107::getForm()->renderRelated($array, $this->news_item['news_meta_keywords'], array('news'=>$this->news_item['news_id']),$template);
 	}
@@ -1264,6 +1266,34 @@ class news_shortcodes extends e_shortcode
 	}
 
 
+	/** New in v2.3 {NEWS_VIEW_COMMENTS} */
+	function sc_news_view_comments($parm = null)
+	{
+		$news = $this->news_item;
+		if (isset($news['news_allow_comments']) && empty($news['news_allow_comments'])
+		)  // ie. comments active
+		{
+			global $comment_edit_query; //FIXME - kill me
+			$comment_edit_query = 'comment.news.' . $news['news_id'];
+			$text = e107::getComment()->compose_comment('news', 
+			'comment', $news['news_id'], null, $news['news_title'], false, true);
+ 
+			if (!empty($text))
+			{
+				$template = e107::getTemplate('news', 'news_other', 'comments');
+				//direct $COMMENT_TEMPLATE['layout']  can't be used because missing caption field
+			  
+				$vars['COMMENTCAPTION'] = $text['caption'];
+				$vars['COMMENTFORM'] = $text['comment_form'];
+				$vars['COMMENTS'] = $text['comment'];
+				$vars['MODERATE'] = $text['moderate'];
+
+				return e107::getParser()->simpleParse($template['layout'], $vars, false) ;
+			}
+		}
+
+		return '';
+	}
 
 	/**
 	 * @example {NEWS_NAV_NEXT}
@@ -1289,7 +1319,7 @@ class news_shortcodes extends e_shortcode
 	 */
 	function sc_news_nav_current()
 	{
-		$template = e107::getTemplate('news', 'news_view', 'nav');
+		$template = e107::getTemplate('news', 'news_other', 'nav');
 		return e107::getParser()->parseTemplate($template['current'], true, $this);
 	}
 
@@ -1305,7 +1335,7 @@ class news_shortcodes extends e_shortcode
 			return null;
 		}
 
-		$template = e107::getTemplate('news', 'news_view', 'nav');
+		$template = e107::getTemplate('news', 'news_other', 'nav');
 		$orig = $this->getScVar('news_item');
 		$this->setScVar('news_item', $data);
 		$text = e107::getParser()->parseTemplate($template[$type], true, $this);

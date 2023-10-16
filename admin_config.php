@@ -85,6 +85,7 @@ class news_admin extends e_admin_dispatcher
 		'cat/create' 		=> array('caption'=> LAN_NEWS_63, 'icon'=> 'fas-folder-plus'), // Category List
 		'other2' 		=> array('divider'=> true),
 		'main/settings' 	=> array('caption'=> LAN_PREFS, 'icon'=>'fa-cog'), // Preferences
+		'main/prefs' 	   => array('caption' => "*".LAN_PREFS, 'icon' => 'fa-cog'), // Preferences
 	//	'main/submitted'	=> array('caption'=> LAN_NEWS_64, 'perm' => 'N'), // Submitted News
 		'sub/list'			=> array('caption'=> NWSLAN_47, 'icon'=>'fa-user-edit'), // Submitted News
 	//	'main/maint'		=> array('caption'=> LAN_NEWS_55, 'perm' => '0') // Maintenance
@@ -414,7 +415,7 @@ class news_sub_form_ui extends e_admin_form_ui
 class news_admin_ui extends e_admin_ui
 {
 	protected $pluginTitle	= ADLAN_0; // "News"
-	protected $pluginName	= 'core';
+	protected $pluginName	= 'news';
 	protected $eventName    = 'news';
 	protected $table 		= "news";
 	protected $pid			= "news_id";
@@ -488,14 +489,14 @@ class news_admin_ui extends e_admin_ui
 	
 	protected $fieldpref = array('checkboxes','news_id', 'news_thumbnail', 'news_title', 'news_datestamp', 'news_category', 'news_class', 'options');
 
-	/* //TODO
+ 
 	protected $prefs = array(
 
-		'news_category'			=> array('title' => NWSLAN_127, 		'type' => 'dropdown', 'help'=> "Determines how the default news page should appear."),
+		'news_cache_timeout'  => array('title' => LAN_NEWS_110,  'type' => 'number', 'help'=> LAN_NEWS_111  ),
 
 
 	);
-	*/
+ 
 		
 	protected $cats = array();
 	protected $newspost;

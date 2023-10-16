@@ -68,12 +68,12 @@ class news_url // plugin-folder + '_url'
 			'redirect'		=> '{e_PLUGIN}news/news.php?action=author&id=$1&sef=$2'
 		);
 
-
+		/* allows to change word view too directly in admin configuration */
 		$config['item'] = array(
-			'alias'         => $alias,
-			'regex'			=> '^{alias}/view-(\d*)-([\w-]*)\/?\??(.*)',
-			'sef'			=> '{alias}/view-{news_id}-{news_sef}',			// {faq_info_sef} is substituted with database value when parsed by e107::url();
-			'redirect'		=> '{e_PLUGIN}news/news.php?action=item&newsid=$1&sef=$2'
+			'alias'         => "{$alias}/view",
+			'regex'			=> '^{alias}-(\d*)-([\w-]*)\/?\??(.*)',
+			'sef'			=> '{alias}-{news_id}-{news_sef}/',
+			'redirect'		=> '{e_PLUGIN}news/news_viewitem.php?id=$1&sef=$2'
 		);
 
 
