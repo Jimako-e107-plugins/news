@@ -24,7 +24,7 @@ if(false === $cached)
 	}
 
 	/** @var e_news_category_tree $ctree */
-	$ctree = e107::getObject('e_news_category_tree', null, e_HANDLER.'news_class.php');
+	$ctree = e107::getObject('e_news_category_tree', null, e_PLUGIN. 'news/ehandlers/news_class.php');
 
 	$parms['tmpl']      = 'news_menu';
 	$parms['tmpl_key']  = 'category';

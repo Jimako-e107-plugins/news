@@ -128,7 +128,7 @@ class news_shortcodes extends e_shortcode
 			else
 			{
  
-				$url =	e107::url('news', 'author', $this->news_item, array('mode' => 'full') );
+				$url =	e107::url('news', 'list/author', $this->news_item, array('mode' => 'full') );
 				return "<a href='" . $url . "'>" . $this->news_item['user_name'] . "</a>";
 				//return "<a href='".e107::getUrl()->create('user/profile/view', $this->news_item)."'>".$this->news_item['user_name']."</a>";
 			}
@@ -188,7 +188,7 @@ class news_shortcodes extends e_shortcode
 			$NEWIMAGE = "";		
 		}
 		
-		return (!$news_item['news_allow_comments'] ? ''.($pref['comments_icon'] ? $NEWIMAGE.' ' : '')."<a title=\"".LAN_COMMENTS."\" href='".e107::url('news', 'item', $news_item, array('mode' => 'full'))."'>".varset($param['commentlink']).intval($news_item['news_comment_total']).'</a>' : vartrue($param['commentoffstring'],'Disabled') );
+		return (!$news_item['news_allow_comments'] ? ''.($pref['comments_icon'] ? $NEWIMAGE.' ' : '')."<a title=\"".LAN_COMMENTS."\" href='".e107::url('news', 'view/item', $news_item, array('mode' => 'full'))."'>".varset($param['commentlink']).intval($news_item['news_comment_total']).'</a>' : vartrue($param['commentoffstring'],'Disabled') );
 	}
 
 	function sc_trackback($parm=null)
@@ -236,25 +236,20 @@ class news_shortcodes extends e_shortcode
 	{
 		//$url = e107::getUrl()->create('news/list/items'); // default for now.
 
-		$url = e107::url('news', 'all');
+		$url = e107::url('news', 'list/all');
 
 		if(varset($parm['list']) == 'all') // A list of all items - usually headings and thumbnails
 		{
 			//$url = e107::getUrl()->xcreate('news/list/all');
-			$url = e107::url('news', 'all');
+			$url = e107::url('news', 'list/all');
 
 		}
 		elseif(varset($parm['list']) == 'category')
 		{
 			//$url = e107::getUrl()->xcreate('news/list/short', $this->news_item);  //default for now.
-			$url = e107::url('news', 'category', $this->news_item, array('mode' => 'full'));
+			$url = e107::url('news', 'view/category', $this->news_item, array('mode' => 'full'));
 		}
-		elseif(varset($parm['items']) == 'category')
-		{
-			//$url = e107::getUrl()->xcreate('news/list/category', $this->news_item);
-			$url = e107::url('news', 'category', $this->news_item, array('mode' => 'full'));
-		}
-
+ 
 		return $url;
 
 	}
@@ -613,7 +608,7 @@ class news_shortcodes extends e_shortcode
 		$category = !empty($this->news_item['category_id']) ? array('id' => $this->news_item['category_id'], 'name' => $this->news_item['category_sef'] ) : array();
 	//	$categoryClass = varset($GLOBALS['NEWS_CSSMODE'],'');
 	    $style = isset($this->param['catlink']) ? "style='".$this->param['catlink']."'" : '';
-		$url = e107::url('news', 'category', $this->news_item, array('mode' => 'full'));
+		$url = e107::url('news', 'list/category', $this->news_item, array('mode' => 'full'));
 		//return "<a ".$style." href='".e107::getUrl()->create('news/list/category', $category)."'>".$category_name."</a>";
 	 
 		return "<a " . $style . " href='" . $url . "'>" . $category_name . "</a>";
@@ -1106,7 +1101,7 @@ class news_shortcodes extends e_shortcode
 			$parms = $parm;
 		}
  
-		$url = e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
+		$url = e107::url('news', 'view/item', $this->news_item, array('mode' => 'full'));
 
 		//$url = e107::getUrl()->create('news/view/item', $this->news_item);
 
@@ -1128,7 +1123,7 @@ class news_shortcodes extends e_shortcode
 	function sc_news_url($parm=null)
 	{
  
-		return $url = e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
+		return $url = e107::url('news', 'view/item', $this->news_item, array('mode' => 'full'));
 		//return e107::getUrl()->create('news/view/item', $this->news_item);
 	}
 
@@ -1267,7 +1262,7 @@ class news_shortcodes extends e_shortcode
 	{
 		$params = (string) e107::getRegistry('core/news/pagination');
  
-		 return e107::getParser()->parseTemplate("{NEXTPREV=".$params."}");
+		return e107::getParser()->parseTemplate("{NEXTPREV=".$params."}");
 
 	}
 

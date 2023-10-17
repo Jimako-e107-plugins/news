@@ -18,7 +18,9 @@ if (!defined('e107_INIT'))
     require_once(__DIR__ . '/../../class2.php');
 }
 
- 
+e107::corelan("news");
+e107::lan("news");
+
 class news_front
 {
 
@@ -47,16 +49,14 @@ class news_front
         $this->cacheRefreshTime = vartrue($this->newsPref['news_cache_timeout'], false);
 
         $this->nobody_regexp = "'(^|,)(" . str_replace(",", "|", e_UC_NOBODY) . ")(,|$)'";
- 
+
         $this->news_id = e107::getParser()->filter($_GET['id'], "int");
         $this->news_sef = e107::getParser()->filter($_GET['sef'], "str");
- 
- 
     }
 
     function init()
     {
-        if ($this->news_id > 1 &&  isset($this->news_sef))
+        if ($this->news_id > 0 &&  isset($this->news_sef))
         {
 
             $this->route = 'news/view/item';
@@ -72,11 +72,11 @@ class news_front
             else
             {
                 $this->setRow();  //cache string, 
- 
+
             }
 
             e107::getEvent()->trigger('user_news_item_viewed', $this->currentRow);
- 
+
             $this->setCanonical();
 
             $this->setBreadcrumb();
@@ -87,79 +87,85 @@ class news_front
         {
             $this->error = 1;
             $this->renderError($this->error);
- 
         }
     }
 
-    function render() 
+    function render()
     {
- 
-        if($this->error > 0 ) {
+
+        if ($this->error > 0)
+        {
             $this->renderError($this->error);
-        } 
-        else {
-            
+        }
+        else
+        {
+
             $news = $this->currentRow;
 
-            $caption = $this->getNewsCache($this->cacheString, 'caption');  
+            $caption = $this->getNewsCache($this->cacheString, 'caption');
             $caption = false;
- 
-            if($caption) {
-                
+
+            if ($caption)
+            {
+
                 $this->caption  = $caption;
             }
-            else {
+            else
+            {
                 $this->caption = $news['news_title'];
-          
-                $this->setNewsCache($this->cacheString, 'caption',$this->caption );
+
+                $this->setNewsCache($this->cacheString, 'caption', $this->caption);
             }
-     
+
             $newsCachedPage =  $this->getNewsCache($this->cacheString, 'text');
             if ($newsCachedPage)
             {
                 $this->text = $newsCachedPage;
             }
-            else {
+            else
+            {
+
                 $newsViewTemplate = !empty($news['news_template']) ? $news['news_template'] : 'default';
                 $template = e107::getTemplate('news', 'news_view', $newsViewTemplate);
                 $wrapperKey =  'news_view/' . $newsViewTemplate . '/item';
                 $editable = array(
-                        'table' => 'news',
-                        'pid'   => 'news_id',
-                        'vars'  => 'news_item',
-                        'perms' => 'H|H4',
-                        'shortcodes'    => array(
-                            'news_title'        => array('field' => 'news_title', 'type' => 'text', 'container' => 'span'),
-                            'news_description'  => array('field' => 'news_meta_description', 'type' => 'text', 'container' => 'span'),
-                            'news_body'         => array('field' => 'news_body', 'type' => 'html', 'container' => 'div'),
-                            'news_summary'      => array('field' => 'news_summary', 'type' => 'text', 'container' => 'span'),
-                        )
+                    'table' => 'news',
+                    'pid'   => 'news_id',
+                    'vars'  => 'news_item',
+                    'perms' => 'H|H4',
+                    'shortcodes'    => array(
+                        'news_title'        => array('field' => 'news_title', 'type' => 'text', 'container' => 'span'),
+                        'news_description'  => array('field' => 'news_meta_description', 'type' => 'text', 'container' => 'span'),
+                        'news_body'         => array('field' => 'news_body', 'type' => 'html', 'container' => 'div'),
+                        'news_summary'      => array('field' => 'news_summary', 'type' => 'text', 'container' => 'span'),
+                    )
 
-                    );
+                );
                 $nsc = e107::getScBatch('news', true)->wrapper($wrapperKey);
                 $nsc->setScVar('news_item', $this->currentRow);
                 $nsc->editable($editable);
-                
-                $this->text = e107::getParser()->parseTemplate($template['item'], FALSE, $nsc);
+
+                $this->text = e107::getParser()->parseTemplate($template['item'], TRUE, $nsc);
 
                 $this->setNewsCache($this->cacheString, 'text', $this->text);
             }
-            
-     
+
+
             $tablerender = varset($template['tablerender'], 'news-item');
             $output = e107::getRender()->tablerender($this->caption, $this->text, $tablerender, true);
             echo $output;
 
-            /* fix for not correct magic shortcode */
+            // fix for not correct magic shortcode 
             // temp workaround e107::getRender()->tablerender($this->caption, "", 'magiccaption');
+
         }
     }
 
-    private function setNewsCache($cache_tag, $type = null, $cache_data )
+    private function setNewsCache($cache_tag, $type = null, $cache_data)
     {
         $e107cache = e107::getCache();
         $e107cache->setMD5($this->news_sef);
- /*
+        /*
  
         $e107cache->set($cache_tag . "_title", e107::getSingleton('eResponse')->getMetaTitle());
         $e107cache->set($cache_tag . "_diz", defined("META_DESCRIPTION") ? META_DESCRIPTION : '');
@@ -170,16 +176,15 @@ class news_front
             $type  = "_" . $type;
         }
 
-      
+
         if ($type == '_rows')
         {
             $e107cache->set($cache_tag . "_rows", e107::serialize($cache_data, 'json'));
         }
-        else {
+        else
+        {
             $e107cache->set($cache_tag . $type, $cache_data);
         }
-
-        
     }
 
 
@@ -195,7 +200,7 @@ class news_front
             $cachetag .= "_" . $type;
         }
         $this->addDebug('CacheString lookup', $cachetag);
- 
+
         $ret =  e107::getCache()->setMD5($this->news_sef)->retrieve($cachetag);
 
         if (empty($ret))
@@ -211,11 +216,11 @@ class news_front
         return $ret;
     }
 
- 
+
 
     private function setNewsFrontMeta($news)
-	{
-       /* move this to prefs who wants to display keywords 
+    {
+        /* move this to prefs who wants to display keywords 
         if (!empty($news['news_meta_robots']))
         {
             e107::meta('robots', $news['news_meta_robots']);
@@ -224,6 +229,8 @@ class news_front
         if (!empty($news['news_title']))
         {
             e107::title($news['news_title']);
+            e107::meta('title', $news['news_title']);
+            e107::meta('og:title', $news['news_title']);
             e107::meta('og:type', 'article');
             e107::meta('twitter:card', 'summary');
         }
@@ -233,7 +240,7 @@ class news_front
             e107::title($news['news_meta_title'], true);
         }
 
-        if ($news['news_meta_description'] )
+        if ($news['news_meta_description'])
         {
             e107::meta('description', $news['news_meta_description']);
             e107::meta('og:description', $news['news_meta_description']);
@@ -263,11 +270,12 @@ class news_front
                 e107::meta('twitter:card', 'summary_large_image');
             }
         }
-        return;
+        e107::meta('article:author', SITEURL);
 
+        return;
     }
 
- 
+
 
 
     public function debug()
@@ -296,7 +304,7 @@ class news_front
 
     function setRow()
     {
- 
+
         $query = "
 		    SELECT n.*, u.user_id, u.user_name, u.user_customtitle, u.user_image, u.user_login, nc.category_id, nc.category_name, nc.category_sef, nc.category_icon, nc.category_meta_keywords,
 			nc.category_meta_description
@@ -309,28 +317,27 @@ class news_front
 			AND (n.news_end=0 || n.news_end>" . time() . ")
 			AND n.news_id=" . intval($this->news_id);
 
-            if ($news = e107::getDb()->retrieve($query))
-            {
-    
-                e107::getEvent()->trigger('user_news_item_viewed', $news);
-                $this->addDebug("Event-triggered:user_news_item_viewed", $news);
-    
-                $this->currentRow = $news;
-                $this->setNewsCache($this->cacheString, 'rows', $this->currentRow);
+        if ($news = e107::getDb()->retrieve($query))
+        {
 
-            }
-            else {
+            e107::getEvent()->trigger('user_news_item_viewed', $news);
+            $this->addDebug("Event-triggered:user_news_item_viewed", $news);
 
-                $this->error = 2;
-            }
+            $this->currentRow = $news;
+            $this->setNewsCache($this->cacheString, 'rows', $this->currentRow);
+        }
+        else
+        {
 
+            $this->error = 2;
+        }
     }
 
     function setCanonical()
     {
 
         $options = array('mode' => 'full');
- 
+
         if (!defined("e_FRONTPAGE"))
         {
             e107::canonical('news', 'item', $this->currentRow, $options);
@@ -351,16 +358,16 @@ class news_front
         }
 
         $categoryName = e107::getParser()->toHTML($this->currentRow['category_name'], true, 'TITLE');
- 
+
 
         $itemName = e107::getParser()->toHTML($this->currentRow['news_title'], true, 'TITLE');
 
-        $breadcrumb[] = array('text' => $categoryName, 'url' => e107::url('news', 'category', $this->currentRow));
+        $breadcrumb[] = array('text' => $categoryName, 'url' => e107::url('news', 'list/category', $this->currentRow));
         $breadcrumb[] = array('text' => $itemName, 'url' => null);
-   
- 
+
+
         e107::breadcrumb($breadcrumb);
-    }    
+    }
 
 
     private function addDebug($key, $message)
@@ -376,22 +383,25 @@ class news_front
     }
 
 
-    function renderError($error = NULL) {
- 
-        switch($error) {
+    function renderError($error = NULL)
+    {
+
+        switch ($error)
+        {
             case 1:
                 $debug = "(1) Wrong GET parameters";
             case 2:
-                $debug = "(2) Wrong ID - no available record / access, dates";    
-            break; 
+                $debug = "(2) Wrong ID - no available record / access, dates";
+                break;
         }
 
         header("HTTP/1.0 404 Not Found", true, 404);
         require_once(e_LANGUAGEDIR . e_LANGUAGE . "/lan_error.php");
-        if(e_DEBUG OR ADMIN) {
+        if (e_DEBUG or ADMIN)
+        {
             $text = e107::getMessage()->addError($debug)->render();
         }
-      
+
         $text .= "<div class='news-view-error'>" .
             e107::getMessage()->setTitle(LAN_ERROR_7, E_MESSAGE_INFO)->addInfo(LAN_NEWS_308)->render(); // Perhaps you're looking for one of the news items below?
         $text .= "</div>";
@@ -400,27 +410,24 @@ class news_front
 
 
         e107::getRender()->tablerender(LAN_ERROR_7, "", "magiccaption");
- 
-        e107::getRender()->tablerender("", $text, $tablerender );
+
+        e107::getRender()->tablerender("", $text, $tablerender);
 
         return;
-      
-
     }
-
 }
 
 $newsObj = new news_front;
 
 $newsObj->init();
- 
+
 require_once(HEADERF);
- 
+
 $newsObj->render();
 
 if (E107_DBG_BASIC && ADMIN)
 {
     $newsObj->debug();
 }
- 
+
 require_once(FOOTERF);

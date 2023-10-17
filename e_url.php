@@ -61,7 +61,7 @@ class news_url // plugin-folder + '_url'
 		
 		/* route:  news/list/author */
 
-		$config['author'] = array(
+		$config['list/author'] = array(
 			'alias'         => "{$alias}/author",
 			'regex'			=> '^{alias}-(\d*)-(.*)\/(?:\?)(.*)$',
 			'sef'			=> '{alias}-{news_author}-{user_name}/',			 
@@ -69,7 +69,7 @@ class news_url // plugin-folder + '_url'
 		);
 
 
-		$config['item'] = array(
+		$config['view/item'] = array(
 			'alias'         => "{$alias}/view",
 			'regex'			=> '^{alias}-(\d*)-([\w-]*)\/?\??(.*)',
 			'sef'			=> '{alias}-{news_id}-{news_sef}/',
@@ -78,7 +78,7 @@ class news_url // plugin-folder + '_url'
 
 
 		/* news/list/short */
-		$config['category'] = array(
+		$config['list/category'] = array(
 			'alias'         => "{$alias}/category",
 			'regex'			=> '^{alias}-(\d*)-([\w-]*)\/?\??(.*)',
 			'sef'			=> '{alias}-{category_id}-{category_sef}/',			 
@@ -86,7 +86,7 @@ class news_url // plugin-folder + '_url'
 		);
 
   
-		$config['tag'] = array(
+		$config['list/tag'] = array(
 			'alias'         => "news/tag",
 			'regex'         => '^{alias}-(.*)(?:\/)(.*)(?:\/?)(.*)',
 			'sef'			=> '{alias}-{tag}/',			 
@@ -95,7 +95,7 @@ class news_url // plugin-folder + '_url'
 
 
 		/* no pagination */
-		$config['all'] = array(
+		$config['list/all'] = array(
 			'alias'         => "news/all",
 			'regex'			=> '^{alias}/',
 			'sef'			=> '{alias}/',
