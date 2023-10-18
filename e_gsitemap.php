@@ -140,10 +140,10 @@ class news_gsitemap
 	{
 		if($table === 'news_category')
 		{
-			 return e107::url('news','list/category', $row, array('full' => 1));
+			 return e107::url('news','category', $row, array('full' => 1));
 		}
 
-		return e107::url('news', 'view/item', $row, array('full' => 1));
+		return e107::url('news', 'item', $row, array('full' => 1));
 	}
 
 

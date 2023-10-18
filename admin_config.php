@@ -447,7 +447,7 @@ class news_admin_ui extends e_admin_ui
 	protected $fields = array(
 		'checkboxes'	   		=> array('title' => '', 			'type' => null, 		'width' => '3%', 	'thclass' => 'center first', 	'class' => 'center', 	'nosort' => true, 'toggle' => 'news_selected', 'forced' => TRUE),
 		'news_id'				=> array('title' => LAN_ID, 	    'type' => 'text',
-			'readParms' => 'url=view/item&target=blank',
+			'readParms' => 'url=item&target=blank',
 			'width' => '5%', 	'thclass' => 'center', 			
 			'class' => 'center',  	'nosort' => false   ),
  		'news_thumbnail'		=> array('title' => NWSLAN_67, 		'type' => 'method', 'data'=>'str',	'width' => '110px',	'thclass' => 'center', 			'class' => "center", 		'nosort' => false, 'readParms'=>'thumb=60&thumb_urlraw=0&thumb_aw=60',  'readonly'=>false),
