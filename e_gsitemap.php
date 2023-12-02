@@ -70,7 +70,7 @@ class news_gsitemap
 				'id'    => $row['category_id'],
 				'table' => 'news_category',
 				'name' => $row['category_name'],
-				'url' => $this->url('news_category', $row), //  e107::getUrl()->create('news/list/category', $row, array('full' => 1)) ,
+				'url' => $this->url('news_category', $row), //  e107::gectUrl()->create('news/list/category', $row, array('full' => 1)) ,
 				'type' => LAN_NEWS_23,
 				'class'=> 0
 			);

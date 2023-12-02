@@ -85,8 +85,11 @@ foreach($arr as $year=>$val)
 
 			foreach($items as $row)
 			{
-				$url = e107::getUrl()->create('news/view/item', $row, array('allow' => 'news_sef,news_title,news_id,category_sef,category_name,category_id'));
-		        $var = array('ITEM_URL'   => $url,
+
+				$news_url = e107::url('news', 'item', $row, array('mode' => 'full'));
+
+				//$url = e107::getxUrl()->create('news/view/item', $row, array('allow' => 'news_sef,news_title,news_id,category_sef,category_name,category_id'));
+		        $var = array('ITEM_URL'   => $news_url,
 		                     'ITEM_TITLE' => $tp->toHTML($row['news_title'],false,'TITLE'),
 		        );
 		        $text .=  $tp->simpleParse($template['item'], $var);

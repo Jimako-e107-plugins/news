@@ -1089,7 +1089,8 @@ class news_front
 
 		if($this->defaultTemplate != 'list' && ($paginationSC === false))
 		{
-			$text .= "<div class='center news-list-footer'><a class='btn btn-default' href='".e107::getUrl()->create('news/list/all')."'>".LAN_NEWS_84."</a></div>";
+			$url = e107::url('news', 'all');
+			$text .= "<div class='center news-list-footer'><a class='btn btn-default' href='". $url."'>".LAN_NEWS_84."</a></div>";
 		}
 
 		$this->caption = $NEWSLISTTITLE;

@@ -130,7 +130,7 @@ class news_shortcodes extends e_shortcode
  
 				$url =	e107::url('news', 'author', $this->news_item, array('mode' => 'full') );
 				return "<a href='" . $url . "'>" . $this->news_item['user_name'] . "</a>";
-				//return "<a href='".e107::getUrl()->create('user/profile/view', $this->news_item)."'>".$this->news_item['user_name']."</a>";
+				//return "<a href='".e107::getxUrl()->create('user/profile/view', $this->news_item)."'>".$this->news_item['user_name']."</a>";
 			}
 		}
 		return "<a href='https://e107.org'>e107</a>";
@@ -199,7 +199,7 @@ class news_shortcodes extends e_shortcode
 		$news_item = $this->news_item;
 		$news_item['#'] = 'track';
 		
-		return ($this->param['trackbackbeforestring'] ? $this->param['trackbackbeforestring'] : '')."<a href='".e107::getUrl()->xcreate('news/view/item', $this->news_item)."'>".$this->param['trackbackstring'].$this->news_item['tb_count'].'</a>'.($this->param['trackbackafterstring'] ? $this->param['trackbackafterstring'] : '');*/
+		return ($this->param['trackbackbeforestring'] ? $this->param['trackbackbeforestring'] : '')."<a href='".e107::getxUrl()->xcreate('news/view/item', $this->news_item)."'>".$this->param['trackbackstring'].$this->news_item['tb_count'].'</a>'.($this->param['trackbackafterstring'] ? $this->param['trackbackafterstring'] : '');*/
 	}
 
 
@@ -234,19 +234,19 @@ class news_shortcodes extends e_shortcode
 
 	public function sc_news_nav_url($parm=null)
 	{
-		//$url = e107::getUrl()->create('news/list/items'); // default for now.
+		//$url = e107::getxUrl()->create('news/list/items'); // default for now.
 
 		$url = e107::url('news', 'all');
 
 		if(varset($parm['list']) == 'all') // A list of all items - usually headings and thumbnails
 		{
-			//$url = e107::getUrl()->xcreate('news/list/all');
+			//$url = e107::getxUrl()->create('news/list/all');
 			$url = e107::url('news', 'all');
 
 		}
 		elseif(varset($parm['list']) == 'category')
 		{
-			//$url = e107::getUrl()->xcreate('news/list/short', $this->news_item);  //default for now.
+			//$url = e107::getxUrl()->xcreate('news/list/short', $this->news_item);  //default for now.
 			$url = e107::url('news', 'category', $this->news_item, array('mode' => 'full'));
 		}
  
@@ -355,7 +355,7 @@ class news_shortcodes extends e_shortcode
 
 		return e107::url('news', 'category', $this->news_item, array('mode'=>'full'));
 
-		//return e107::getUrl()->create('news/list/category', $category);	
+		//return e107::getxUrl()->create('news/list/category', $category);	
 	}
 
 
@@ -391,7 +391,7 @@ class news_shortcodes extends e_shortcode
 			return null;
 		}
 		return  e107::url('news', 'author', $this->news_item, array('mode' => 'full') );
-		//return e107::getUrl()->create('news/list/author',array('author'=>$this->news_item['user_name'])); // e_BASE."news.php?author=".$val
+		//return e107::getxUrl()->create('news/list/author',array('author'=>$this->news_item['user_name'])); // e_BASE."news.php?author=".$val
 	}
 
 	/**
@@ -539,7 +539,7 @@ class news_shortcodes extends e_shortcode
 
 			case 'url':
 				return e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
-				//return "<a href='".e107::getUrl()->xcreate('news/view/item', $this->news_item)."'>".$imgTag."</a>";
+				//return "<a href='".e107::getxUrl()->xcreate('news/view/item', $this->news_item)."'>".$imgTag."</a>";
 			break;
 
 			case 'tag':
@@ -609,7 +609,7 @@ class news_shortcodes extends e_shortcode
 	//	$categoryClass = varset($GLOBALS['NEWS_CSSMODE'],'');
 	    $style = isset($this->param['catlink']) ? "style='".$this->param['catlink']."'" : '';
 		$url = e107::url('news', 'category', $this->news_item, array('mode' => 'full'));
-		//return "<a ".$style." href='".e107::getUrl()->create('news/list/category', $category)."'>".$category_name."</a>";
+		//return "<a ".$style." href='".e107::getxUrl()->create('news/list/category', $category)."'>".$category_name."</a>";
 	 
 		return "<a " . $style . " href='" . $url . "'>" . $category_name . "</a>";
 	}
@@ -792,7 +792,8 @@ class news_shortcodes extends e_shortcode
 			}
 			else
 			{
-				return $es1."<a {$class} href='".e107::getUrl()->create('news/view/item', $this->news_item)."'>".$es."</a>".$es2;
+				$news_url = e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
+				return $es1."<a {$class} href='". $news_url."'>".$es."</a>".$es2;
 			}
 		}
 		return '';
@@ -801,13 +802,15 @@ class news_shortcodes extends e_shortcode
 	function sc_captionclass()
 	{
 		$news_title = e107::getParser()->toHTML($this->news_item['news_title'], TRUE,'TITLE');
-		return "<div class='category".$this->news_item['news_category']."'>".($this->news_item['news_render_type'] == 1 ? "<a href='".e107::getUrl()->create('news/view/item', $this->news_item)."'>".$news_title."</a>" : $news_title)."</div>";
+		$news_url = e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
+		return "<div class='category".$this->news_item['news_category']."'>".($this->news_item['news_render_type'] == 1 ? "<a href='". $news_url."'>".$news_title."</a>" : $news_title)."</div>";
 	}
 
 	function sc_admincaption()
 	{
 		$news_title = e107::getParser()->toHTML($this->news_item['news_title'], TRUE,'TITLE');
-		return "<div class='".(defined('ADMINNAME') ? ADMINNAME : "null")."'>".($this->news_item['news_render_type'] == 1 ? "<a href='".e107::getUrl()->create('news/view/item', $this->news_item)."'>".$news_title."</a>" : $news_title)."</div>";
+		$news_url = e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
+		return "<div class='".(defined('ADMINNAME') ? ADMINNAME : "null")."'>".($this->news_item['news_render_type'] == 1 ? "<a href='". $news_url ."'>".$news_title."</a>" : $news_title)."</div>";
 	}
 
 	function sc_adminbody($parm=null)
@@ -965,7 +968,8 @@ class news_shortcodes extends e_shortcode
 			break;
 
 			default:
-				return "<a href='".e107::getUrl()->create('news/view/item', $this->news_item)."'><img class='news_image img-responsive img-fluid img-rounded rounded ".$class."' src='".$src."' alt='' style='".$style."' {$dimensions} {$srcset} /></a>";
+				$news_url = e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
+				return "<a href='". $news_url."'><img class='news_image img-responsive img-fluid img-rounded rounded ".$class."' src='".$src."' alt='' style='".$style."' {$dimensions} {$srcset} /></a>";
 			break;
 		}
 	}
@@ -1101,13 +1105,13 @@ class news_shortcodes extends e_shortcode
 			$parms = $parm;
 		}
  
-		$url = e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
+		$news_url = e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
 
-		//$url = e107::getUrl()->create('news/view/item', $this->news_item);
+		//$url = e107::getxUrl()->create('news/view/item', $this->news_item);
 
 		if(isset($parms['href']))
 		{
-			return $url;
+			return $news_url;
 		}
 
 		if(isset($parm['link']))
@@ -1124,7 +1128,7 @@ class news_shortcodes extends e_shortcode
 	{
  
 		return $url = e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
-		//return e107::getUrl()->create('news/view/item', $this->news_item);
+		//return e107::getxUrl()->create('news/view/item', $this->news_item);
 	}
 
 
@@ -1195,9 +1199,9 @@ class news_shortcodes extends e_shortcode
 		{
 			if(trim($val))
 			{
-				//$url = e107::getUrl()->xcreate('news/list/tag',array('tag'=>rawurlencode($val))); // e_BASE."news.php?tag=".$val
+				//$url = e107::getxUrl()->create('news/list/tag',array('tag'=>rawurlencode($val))); // e_BASE."news.php?tag=".$val
 				// will be encoded during create()
-				//$url = e107::getUrl()->xcreate('news/list/tag',array('tag'=> str_replace(' ','-',$val))); // e_BASE."news.php?tag=".$val
+				//$url = e107::getxUrl()->create('news/list/tag',array('tag'=> str_replace(' ','-',$val))); // e_BASE."news.php?tag=".$val
 		 
 				$tmp = 
 				$url = e107::url(

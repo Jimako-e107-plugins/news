@@ -38,7 +38,7 @@ if(false === $cached)
 	}
 
 	/** @var e_news_tree $ntree */
-	$ntree = e107::getObject('e_news_tree', null, e_HANDLER.'news_class.php');
+	$ntree = e107::getObject('e_news_tree', null, e_PLUGIN . 'news/ehandlers/news_class.php');
 
 	if(empty($parms['tmpl']))
 	{
