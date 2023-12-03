@@ -361,9 +361,7 @@ class news_shortcodes extends e_shortcode
 
 
 	//New v2.x Aliases
-
-
-
+  
 	public function sc_news_title($parm=null)
 	{
 		return (!empty($parm['link'])) ? $this->newsTitleLink($parm) : $this->newsTitle($parm);
@@ -1104,9 +1102,9 @@ class news_shortcodes extends e_shortcode
 		{
 			$parms = $parm;
 		}
- 
+		  
 		$news_url = e107::url('news', 'item', $this->news_item, array('mode' => 'full'));
-
+ 
 		//$url = e107::getxUrl()->create('news/view/item', $this->news_item);
 
 		if(isset($parms['href']))
@@ -1121,7 +1119,7 @@ class news_shortcodes extends e_shortcode
 		
 		$title = $this->sc_news_title($parm);
 
-		return "<a style='".(isset($this->param['itemlink']) ? $this->param['itemlink'] : 'null')."' href='{$url}'>".$title.'</a>';
+		return "<a style='".(isset($this->param['itemlink']) ? $this->param['itemlink'] : 'null')."' href='{$news_url}'>".$title.'</a>';
 	}
 
 	function sc_news_url($parm=null)
@@ -1244,7 +1242,7 @@ class news_shortcodes extends e_shortcode
 
 		$template = e107::getTemplate('news', 'news_other', 'related');
 
-		return e107::getForm()->renderRelated($array, $this->news_item['news_meta_keywords'], array('news'=>$this->news_item['news_id']),$template);
+	 return e107::getForm()->renderRelated($array, $this->news_item['news_meta_keywords'], array('news'=>$this->news_item['news_id']),$template);
 	}
 
 
