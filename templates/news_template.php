@@ -30,28 +30,7 @@ $NEWS_INFO = array(
 // Template/CSS to be reviewed for best bootstrap implementation 
 $NEWS_TEMPLATE['list']['caption']	= '{NEWSCATEGORY}';
 $NEWS_TEMPLATE['list']['start']	= '{SETIMAGE: w=400&h=350&crop=1}';
-/*
- // (optional)
-$NEWS_TEMPLATE['list']['first'] = '
-		{SETIMAGE: w=800&h=400}
-		<div class="default-item">
-
-          {NEWS_IMAGE: item=1}
-			<h2 class="news-title">{NEWS_TITLE: link=1}</h2>
-          <p class="lead">{NEWS_SUMMARY}</p>
-          {NEWS_VIDEO: item=1}
-          <div class="text-justify">
-       
-          </div>
-           <div class="text-right text-end">
-			<a href="{NEWS_URL}" class="btn btn-primary">{LAN=LAN_READ_MORE}</a>
-			</div>
-        <hr>
-		
-			</div>
-		{SETIMAGE: w=400&h=350&crop=1}
-';
-*/
+ 
 
 $NEWS_TEMPLATE['list']['end']	= '';
 $NEWS_TEMPLATE['list']['item']	= '
@@ -148,7 +127,7 @@ $NEWS_TEMPLATE['default']['end']	= '{NEWS_PAGINATION}';
 
 $NEWS_TEMPLATE['category']          = $NEWS_TEMPLATE['default'];
 $NEWS_TEMPLATE['category']['start']	= '<!-- Category News Template -->';
-
+$NEWS_TEMPLATE['category']['caption']  = '{NEWS_CATEGORY_NAME}';
 /**
  * @todo (experimental)
  */
