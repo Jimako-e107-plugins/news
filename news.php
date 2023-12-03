@@ -149,7 +149,7 @@ class news_front
 
 	private function detect()
 	{
-
+ 
 		if ($this->action === 'category' || $this->action === 'all' || $this->action === 'tag' || $this->action === 'author'|| $this->action === 'index')
 		{	// --> Cache
 	 
@@ -1199,38 +1199,7 @@ class news_front
 				$noNewsMessage = LAN_NEWS_463;
 				break;
 
-
-			case "item" :
-				$sub_action = intval($this->subAction);
-				$news_total = 1;
-			/*	if(isset($this->pref['trackbackEnabled']) && $this->pref['trackbackEnabled'])
-				{
-					$query = "
-			    SELECT COUNT(tb.trackback_pid) AS tb_count, n.*, u.user_id, u.user_name, u.user_customtitle, u.user_image, nc.category_id, nc.category_name, nc.category_sef,
-				nc.category_icon, nc.category_meta_keywords, nc.category_meta_description, nc.category_template 
-				FROM #news AS n
-				LEFT JOIN #user AS u ON n.news_author = u.user_id
-				LEFT JOIN #news_category AS nc ON n.news_category = nc.category_id
-				LEFT JOIN #trackback AS tb ON tb.trackback_pid  = n.news_id
-				WHERE n.news_id=".$this->subAction." AND n.news_class REGEXP '".e_CLASS_REGEXP."' AND NOT (n.news_class REGEXP ".$this->nobody_regexp.")
-				AND n.news_start < ".time()." AND (n.news_end=0 || n.news_end>".time().")
-				GROUP by n.news_id";
-				}
-				else
-				{*/
-					$query = "
-			    SELECT n.*, u.user_id, u.user_name, u.user_customtitle, u.user_image,  nc.category_id, nc.category_name, nc.category_sef, nc.category_icon,
-				nc.category_meta_keywords, nc.category_meta_description, nc.category_template 
-				FROM #news AS n
-				LEFT JOIN #user AS u ON n.news_author = u.user_id
-				LEFT JOIN #news_category AS nc ON n.news_category = nc.category_id
-				WHERE n.news_id=".$this->subAction." AND n.news_class REGEXP '".e_CLASS_REGEXP."' AND NOT (n.news_class REGEXP ".$this->nobody_regexp.")
-				AND n.news_start < ".time()." AND (n.news_end=0 || n.news_end>".time().")";
-		//		}
-
-				$noNewsMessage = LAN_NEWS_83;
-				break;
-
+ 
 
 			case "month" :
 			case "day" :
