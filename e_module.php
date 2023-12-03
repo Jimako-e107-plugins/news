@@ -13,9 +13,8 @@ if(!defined('e107_INIT'))
 {
 	exit;
 }
-/* this is not working for menus 
+/* this is not working for menus but you need it for getSingleton() */
 e107::setHandlerOverload('news',  'news', '{e_PLUGIN}news/ehandlers/news_class.php');
 e107::setHandlerOverload('e_news_tree', 'e_news_tree',  '{e_PLUGIN}news/ehandlers/news_class.php');
 e107::setHandlerOverload('e_news_category_item', 'e_news_category_item',  '{e_PLUGIN}news/ehandlers/news_class.php');
 e107::setHandlerOverload('e_news_category_tree', 'e_news_category_tree',  '{e_PLUGIN}news/ehandlers/news_class.php');
-*/
