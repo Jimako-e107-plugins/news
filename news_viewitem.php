@@ -145,19 +145,24 @@ class news_front
                 $nsc->setScVar('news_item', $this->currentRow);
                 $nsc->editable($editable);
 
+                /* fix for not correct magic shortcode 
+                it has to be called before first using of tablerender and in this case it is RELATED shortcode */
+                e107::getRender()->tablerender($this->caption, "", 'magiccaption');
+
                 $this->text = e107::getParser()->parseTemplate($template['item'], TRUE, $nsc);
 
                 $this->setNewsCache($this->cacheString, 'text', $this->text);
             }
 
+            // fix for not correct magic shortcode 
+            e107::getRender()->tablerender($this->caption, "", 'magiccaption');
 
             $tablerender = varset($template['tablerender'], 'news-item');
+
             $output = e107::getRender()->tablerender($this->caption, $this->text, $tablerender, true);
+            
             echo $output;
-
-            // fix for not correct magic shortcode 
-            // temp workaround e107::getRender()->tablerender($this->caption, "", 'magiccaption');
-
+ 
         }
     }
 
