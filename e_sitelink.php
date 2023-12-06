@@ -128,7 +128,7 @@ class news_sitelink // include plugin-folder in the name.
 			{
 				$sublinks[] = array(
 					'link_name'			=> $row['news_title'],
-					'link_url'			=> e107::getUrl()->create('news/view/item', $row, array('allow' => 'news_sef,news_title,news_id')), // 'news.php?extend.'.$row['news_id'],
+					'link_url'			=> e107::url('news', 'item', $row, array('full' => 1)), 
 					'link_description'	=> $row['news_summary'],
 					'link_button'		=> '',
 					'link_category'		=> '',
