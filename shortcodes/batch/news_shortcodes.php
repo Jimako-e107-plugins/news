@@ -351,7 +351,7 @@ class news_shortcodes extends e_shortcode
 			return null;
 		}
  
-		$category = array('id' => $this->news_item['category_id'], 'name' => $this->news_item['category_sef'] );
+	//	$category = array('id' => $this->news_item['category_id'], 'name' => $this->news_item['category_sef'] );
 
 		return e107::url('news', 'category', $this->news_item, array('mode'=>'full'));
 
