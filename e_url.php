@@ -29,24 +29,7 @@ class news_url // plugin-folder + '_url'
 	function config()
 	{
 		$config = array();
-
-		$pref = e107::pref('core','url_aliases'); // [en][news]
-
-		$alias = null;
-
-		if(!empty($pref[e_LAN]))
-		{
-			foreach($pref[e_LAN] as $k=>$v)
-			{
-				if($v === 'news' )
-				{
-					$alias = $k;
-					break;
-				}
-			}
-		}
-
-
+ 
 		/* list  -  list/category  id */
 		/* cat  - list/short id */
 		/* day. month  id  list/day list/month '
@@ -57,7 +40,7 @@ class news_url // plugin-folder + '_url'
 		/* default  list/items */ 
 
 		/* news/ + route */
-		$alias = 'blog';
+		$alias = 'news';
 		
 		/* route:  news/list/author */
 
@@ -70,7 +53,7 @@ class news_url // plugin-folder + '_url'
 
 
 		$config['item'] = array(
-			'alias'         => "{$alias}/view",
+			'alias'         => "news/view",
 			'regex'			=> '^{alias}-(\d*)-([\w-]*)\/?\??(.*)',
 			'sef'			=> '{alias}-{news_id}-{news_sef}/',
 			'redirect'		=> '{e_PLUGIN}news/news_viewitem.php?id=$1&sef=$2'
@@ -116,7 +99,7 @@ class news_url // plugin-folder + '_url'
 			'alias'         => "news",
 			'regex'			=> '^{alias}/$', 	
 			'sef'			=> '{alias}/',
-			'redirect'		=> '{e_PLUGIN}news/news.php?file=index'
+			'redirect'		=> '{e_PLUGIN}news/news.php'
 		);
 
 		return $config;

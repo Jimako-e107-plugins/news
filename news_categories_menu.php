@@ -8,11 +8,13 @@
 
 if (!defined('e107_INIT')) { exit; }
 
-$cacheString = 'nq_news_categories_menu_'.md5(serialize($parm).USERCLASS_LIST.e_LANGUAGE);
+$cacheString = 'nq_' .  NEWS_DEF_CATEGORY_CACHE_STRING . '_menu_'.md5(serialize($parm).USERCLASS_LIST.e_LANGUAGE);
 $cached = e107::getCache()->retrieve($cacheString);
+$cached = false;
+ 
 if(false === $cached)
 {
-	e107::plugLan('news');
+	e107::plugLan(NEWS_DEF_PLUGIN_FOLDER);
 
 	if(is_string($parm))
 	{
@@ -24,14 +26,16 @@ if(false === $cached)
 	}
 
 	/** @var e_news_category_tree $ctree */
-	$ctree = e107::getObject('e_news_category_tree', null, e_PLUGIN. 'news/ehandlers/news_class.php');
-
+	//$ctree = e107::getObject('e_news2_category_tree', null, e_PLUGIN. 'news/ehandlers/e_news_category_tree.php');
+	$ctree =  e107::getSingleton(NEWS_DEF_CATEGORY_MODEL_TREE,  e_PLUGIN . NEWS_DEF_PLUGIN_FOLDER .'/ehandlers/'. NEWS_DEF_CATEGORY_MODEL_FILE);
+ 
 	$parms['tmpl']      = 'news_menu';
 	$parms['tmpl_key']  = 'category';
+ 
+	$template = e107::getTemplate(NEWS_DEF_PLUGIN_FOLDER, $parms['tmpl'], $parms['tmpl_key'], true, true);
 
-	$template = e107::getTemplate('news', $parms['tmpl'], $parms['tmpl_key'], true, true);
-
-	$cached = $ctree->loadActive()->render($template, $parms, true);
+	$cached = $ctree->loadActive()->render($template, $parms, "news_categories_menu");
+ 
 	e107::getCache()->set($cacheString, $cached);
 }
 
