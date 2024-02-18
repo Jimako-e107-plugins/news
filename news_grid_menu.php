@@ -21,8 +21,11 @@ if (!defined('e107_INIT')) { exit; }
  * @example admin assigned - Add via Media-Manager and then configure.
  */
 
+ if(e107::isInstalled('news')) {
+    $ngrid = e107::getObject('news', null, e_PLUGIN . 'news/ehandlers/news_class.php');
+    $cached = $ngrid->render_newsgrid($parm);
 
-$ngrid = e107::getObject('news', null, e_PLUGIN . 'news/ehandlers/news_class.php');
-$cached = $ngrid->render_newsgrid($parm);
+    echo $cached;
+ }
 
-echo $cached;
+
