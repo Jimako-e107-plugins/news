@@ -15,8 +15,8 @@
 if (!defined('e107_INIT')) { exit; }
 
  
-e107::coreLan('news');
-e107::lan('news');
+e107::lan('news', 'lan_news', true);
+e107::lan('news', false, true);
 
 class news_shortcodes extends e_shortcode
 {

@@ -18,8 +18,8 @@ if (!defined('e107_INIT'))
     require_once(__DIR__ . '/../../class2.php');
 }
 
-e107::corelan("news");
-e107::lan("news");
+e107::lan('news', 'lan_news', true);
+e107::lan('news', false, true);
 
 class news_category_front
 {
