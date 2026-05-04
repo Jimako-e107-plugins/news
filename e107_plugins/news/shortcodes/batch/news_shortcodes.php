@@ -1240,7 +1240,7 @@ class news_shortcodes extends e_shortcode
 			$array['types'] = 'news,page';
 		}
 
-		$template = e107::getTemplate('news', 'news_other', 'related');
+		$template = e107::getTemplate('news', 'news_other', 'related', true, true);
 
 	 return e107::getForm()->renderRelated($array, $this->news_item['news_meta_keywords'], array('news'=>$this->news_item['news_id']),$template);
 	}
@@ -1283,7 +1283,7 @@ class news_shortcodes extends e_shortcode
  
 			if (!empty($text))
 			{
-				$template = e107::getTemplate('news', 'news_other', 'comments');
+				$template = e107::getTemplate('news', 'news_other', 'comments', true, true);
 				//direct $COMMENT_TEMPLATE['layout']  can't be used because missing caption field
 			  
 				$vars['COMMENTCAPTION'] = $text['caption'];
@@ -1322,7 +1322,7 @@ class news_shortcodes extends e_shortcode
 	 */
 	function sc_news_nav_current()
 	{
-		$template = e107::getTemplate('news', 'news_other', 'nav');
+		$template = e107::getTemplate('news', 'news_other', 'nav', true, true);
 		return e107::getParser()->parseTemplate($template['current'], true, $this);
 	}
 

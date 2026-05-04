@@ -103,7 +103,7 @@ class news_category_front
     function render()
     {
 
-        $template = e107::getTemplate('news', 'news', 'category');
+        $template = e107::getTemplate('news', 'news_category', 'default', true, true);
 
         if ($this->error > 0)
         {

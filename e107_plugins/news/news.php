@@ -878,7 +878,7 @@ class news_front
 		{
 			$this->addDebug("Cache", 'inactive: '.$this->cacheString);
 		}
-
+ 
 		$category = intval($this->subAction);
 		if ($this->action == 'category' && $category != 0)
 		{
@@ -1023,7 +1023,7 @@ class news_front
 
 		$action = $currentNewsAction;
 
-		$template = e107::getTemplate('news', 'news', 'list');
+		$template = e107::getTemplate('news', 'news_list', 'list', true, true);
 
  
 		// Legacy Styling..
@@ -1094,9 +1094,9 @@ class news_front
 		}
 
 		$this->caption = $NEWSLISTTITLE;
-
+ 
 		$this->templateKey = 'list';
-		$cache_data = $text; // e107::getRender()->tablerender($NEWSLISTTITLE, $text, 'news', true);
+		$cache_data = $text; //e107::getRender()->tablerender($NEWSLISTTITLE, $text, 'news', true);
 
 		$this->setNewsFrontMeta($newsList[1], $this->action);
 		$this->setNewsCache($this->cacheString, $cache_data);
@@ -1383,7 +1383,7 @@ class news_front
 			if(vartrue($NEWSLISTSTYLE)) $template =  $NEWSLISTSTYLE; v1.x doesn't do this.. so no point doing it here.
 			else
 			{
-				$tmp = e107::getTemplate('news', 'news', 'list');
+				$tmp = e107::getTemplate('news', 'news', 'list', true, true);
 				$template = $tmp['item'];
 				unset($tmp);
 			}
@@ -1403,7 +1403,7 @@ class news_front
 			// XXX we use $NEWSLISTSTYLE above - correct as we are currently in list mode - XXX No this is not NEWSLISTSTYLE - which provides only summaries.
 			// TODO requires BC testing if we comment this one
 		 
-				$layout = e107::getTemplate('news', 'news');
+				$layout = e107::getTemplate('news', 'news', null, true, true);
 				$catTemplate = $newsAr[1]['category_template'];
 
 				// v2.1.7 load the category template if found.

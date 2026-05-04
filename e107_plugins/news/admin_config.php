@@ -1047,7 +1047,7 @@ class news_admin_ui extends e_admin_ui
 
 			$newsTemplates = array();
 
-			if($newInfo = e107::getTemplateInfo('news', 'news', null, 'front', true))  //TODO  'category'=>'Categories'? research 'Use non-standard template for news layout' and integrate here.
+			if($newInfo = e107::getTemplateInfo('news', 'news_list', null, 'front', true))  //TODO  'category'=>'Categories'? research 'Use non-standard template for news layout' and integrate here.
 			{
 				foreach($newInfo as $k=>$val)
 				{
@@ -1409,11 +1409,6 @@ class news_form_ui extends e_admin_form_ui
 
 		if($mode === 'write')
 		{
-
-			if($tmp = e107::getTemplate('news', 'news', 'view'))
-			{
-				return LAN_DEFAULT;
-			}
 
 			if($tmp = e107::getLayouts('news', 'news_view', 'front', null, false, false))
 			{

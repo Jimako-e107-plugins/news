@@ -261,11 +261,11 @@ class news {
 	 * @param $news
 	 * @param $mode
 	 * @param $n_restrict
-	 * @param $NEWS_TEMPLATE
+	 * @param $template
 	 * @param $param
 	 * @return bool|string|null
 	 */
-	function render_newsitem($news, $mode = 'default', $n_restrict = '', $NEWS_TEMPLATE = '', $param = array())
+	function render_newsitem($news, $mode = 'default', $n_restrict = '', $template = '', $param = array())
 	{
 		global $NEWSSTYLE, $NEWSLISTSTYLE;
 		
@@ -359,9 +359,9 @@ class news {
 		}
 		else 
 		{
-			if ($NEWS_TEMPLATE) 
+			if ($template) 
 			{
-				$NEWS_PARSE = $NEWS_TEMPLATE;
+				$NEWS_PARSE = $template;
 			} 
 			else 
 			{
@@ -509,7 +509,7 @@ class news {
 			else // New in v2.1.5
 			{
 				$tmpl = !empty($parms['layout']) ? $parms['layout'] : 'col-md-4';
-				$template = e107::getTemplate('news', 'news_grid', $tmpl);
+				$template = e107::getTemplate('news', 'news_grid', $tmpl, true, true);
 				$parms['tmpl']      = 'news_grid';
 				$parms['tmpl_key']  = $tmpl;
 

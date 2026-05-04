@@ -5,7 +5,7 @@
 This repository mirrors a portion of an e107 installation, not just the plugin folder. The actual plugin lives at `e107_plugins/news/`. Files outside that path (this `DEV_NOTES.md`, `README.md`, `.github/`, etc.) are development-only and never get installed.
 
 ```
-news-v3-dev/                    # repo root (= e107 installation root)
+news/                           # repo root (= e107 installation root)
 ├── DEV_NOTES.md                # dev only, not installed
 ├── README.md                   # dev only, not installed
 ├── LICENSE                     # dev only, not installed
@@ -29,6 +29,33 @@ When working on this repo:
 - `e107_plugins/news/news.php` is the plugin entry point.
 - `e107_plugins/news/languages/English/` is the language folder.
 - Plugin code uses standard e107 paths (`e_PLUGIN.'news/...'`, `__DIR__.'/../../class2.php'`) — these work both in repo and after install.
+
+---
+
+## Template system — file and variable naming convention
+
+Warning: this is specific to this plugin (v2), core could use it as inspiration but there are differences
+
+The plugin uses six template files. Each serves a distinct purpose — do not mix them.
+
+| File | Variable | Drives |
+|---|---|---|
+| `templates/news_list_template.php` | `$NEWS_LIST_TEMPLATE` | `news.php` — list, archive, tag, author views |
+| `templates/news_category_template.php` | `$NEWS_CATEGORY_TEMPLATE` | `news_category.php` — category listing page |
+| `templates/news_view_template.php` | `$NEWS_VIEW_TEMPLATE` | `news_viewitem.php` — single item view (user-selectable via admin) |
+| `templates/news_grid_template.php` | `$NEWS_GRID_TEMPLATE` | `render_newsgrid()` in `news_class.php` — grid layout menus |
+| `templates/news_menu_template.php` | `$NEWS_MENU_TEMPLATE` | all `*_menu.php` sidebar menus |
+| `templates/news_extras_template.php` | `$NEWS_EXTRAS_TEMPLATE` | shortcode sub-components: related items, prev/next nav, comments block |
+
+**Rule:** Keys in `$NEWS_VIEW_TEMPLATE` are user-selectable layouts shown in the admin
+dropdown (`getLayouts()`). Keys in `$NEWS_EXTRAS_TEMPLATE` are sub-components rendered
+inside a layout via shortcodes — they must never be exposed as selectable layouts.
+
+**Theme overrides:** All `getTemplate()` calls use `$merge=true, $themeOverride=true`.
+A theme only needs to define the keys it wants to change; the plugin provides defaults
+for the rest.
+
+See `template-system-refactor.md` for the full migration spec.
 
 ---
 

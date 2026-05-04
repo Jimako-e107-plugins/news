@@ -126,7 +126,7 @@ class news_front
             {
 
                 $newsViewTemplate = !empty($news['news_template']) ? $news['news_template'] : 'default';
-                $template = e107::getTemplate('news', 'news_view', $newsViewTemplate);
+                $template = e107::getTemplate('news', 'news_view', $newsViewTemplate, true, true);
                 $wrapperKey =  'news_view/' . $newsViewTemplate . '/item';
                 $editable = array(
                     'table' => 'news',

@@ -15,10 +15,7 @@ $NEWS_MENU_TEMPLATE['category']['end']         = '</ul>';
 $NEWS_MENU_TEMPLATE['category']['item']        = '
 	<li class="list-group-item d-flex justify-content-between align-items-center"><a class="e-menu-link newscats{ACTIVE}" href="{NEWS_CATEGORY_URL}">{NEWS_CATEGORY_TITLE}</a><span class="badge bg-primary rounded-pill">{NEWS_CATEGORY_NEWS_COUNT=raw}</span></li>
 ';
-
-
-
-
+ 
 
 // @deprecated months menu - use news archive instead.
 $NEWS_MENU_TEMPLATE['months']['start']       = '<ul class="list-group news-menu-months">';
@@ -143,3 +140,6 @@ $NEWS_MENU_TEMPLATE['archive']['month_end']        = '</ul></li>';
 $NEWS_MENU_TEMPLATE['archive']['item']        = "<li><a href='{ITEM_URL}'>{ITEM_TITLE}</a></li>\n";
 
 
+$NEWS_MENU_TEMPLATE['list']['start']       = '<div class="thumbnails">';
+$NEWS_MENU_TEMPLATE['list']['end']         = '</div>';
+//$NEWS_MENU_TEMPLATE['list']['separator']   = '<br />';
