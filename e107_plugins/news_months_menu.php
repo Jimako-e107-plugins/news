@@ -45,8 +45,7 @@ if(false === $cached)
 	}
 
 		
-//	e107::lan('blogcalendar_menu', e_LANGUAGE); // FIXME decide on language file structure (#743)
-	e107::includeLan(e_PLUGIN.'blogcalendar_menu/languages/'.e_LANGUAGE.'.php');
+	e107::lan('news', 'blogcalendar/English');
 
 	$tp = e107::getParser();
 	$sql = e107::getDb();
@@ -137,13 +136,17 @@ if(false === $cached)
 			}
 			else
 			{
-				$footer = '<div class="e-menu-link news-menu-archive"><a class="btn btn-default btn-secondary btn-sm" href="'.e_PLUGIN_ABS.'blogcalendar_menu/archive.php">'.BLOGCAL_L2.'</a></div>';
-				$cached .= $footer;
+				if (e107::isInstalled('blogcalendar_menu'))
+				{
+					$footer = '<div class="e-menu-link news-menu-archive"><a class="btn btn-default btn-secondary btn-sm" href="'.e_PLUGIN_ABS.'blogcalendar_menu/archive.php">'.defset('BLOGCAL_L2', 'Archive').'</a></div>';
+					$cached .= $footer;
+				}
+				// else: no footer link, blogcalendar_menu plugin not installed
 			}
 
 		}
 
-		$cached = $ns->tablerender(BLOGCAL_L1." ".$req_year, $cached, 'news_months_menu', true);
+		$cached = $ns->tablerender(defset('BLOGCAL_L1', 'News by month')." ".$req_year, $cached, 'news_months_menu', true);
 		$ns->setUniqueId(null);
 
 
